@@ -161,7 +161,7 @@ export function useAtomValue<Value>(atom: Atom<Value>, options?: Options) {
     });
     rerender();
     return unsub;
-  }, [store, atom, delay]);
+  }, [store, atom, delay, called]);
 
   return {
     get value() {
