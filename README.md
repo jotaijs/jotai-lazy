@@ -83,6 +83,27 @@ export function useChat() {
 }
 ```
 
+## Pitfalls
+
+### getter atom will not be evaluated if you don't read it
+
+```tsx
+const trackUserAtom = atom(async () => {
+  await fetch("https://api.example.com/tracks");
+});
+
+const App = () => {
+  useAtom(trackUserAtom); // this won't trigger the fetch
+  const [] = useAtom(trackUserAtom); // this will not trigger the fetch
+
+  useAtom(trackUserAtom)[0]; // this will trigger the fetch
+  const [_] = useAtom(trackUserAtom); // this will trigger the fetch
+  const [,] = useAtom(trackUserAtom); // this will trigger the fetch
+
+  return <div>App</div>;
+};
+```
+
 ## LICENSE
 
 MIT
