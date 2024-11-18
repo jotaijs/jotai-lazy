@@ -47,12 +47,22 @@ export function useAtom<AtomType extends Atom<unknown>>(
 export function useAtom<Value, Args extends unknown[], Result>(
   atom: Atom<Value> | WritableAtom<Value, Args, Result>,
   options?: Options,
-) {
-  return [
-    useAtomValue(atom, options),
-    // We do wrong type assertion here, which results in throwing an error.
-    useSetAtom(atom as WritableAtom<Value, Args, Result>, options),
-  ];
+): any {
+  const object = useAtomValue(atom, options);
+  // We do wrong type assertion here, which results in throwing an error.
+  const setter = useSetAtom(atom as WritableAtom<Value, Args, Result>, options);
+  return {
+    get 0() {
+      return object.value;
+    },
+    get 1() {
+      return setter;
+    },
+    [Symbol.iterator]: function* () {
+      yield object.value;
+      yield setter;
+    },
+  };
 }
 
 export { useAtomValue, useSetAtom };

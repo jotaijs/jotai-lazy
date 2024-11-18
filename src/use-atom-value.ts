@@ -104,12 +104,12 @@ type Options = Parameters<typeof useStore>[0] & {
 export function useAtomValue<Value>(
   atom: Atom<Value>,
   options?: Options,
-): Awaited<Value>;
+): { value: Awaited<Value> };
 
 export function useAtomValue<AtomType extends Atom<unknown>>(
   atom: AtomType,
   options?: Options,
-): Awaited<ExtractAtomValue<AtomType>>;
+): { value: Awaited<ExtractAtomValue<AtomType>> };
 
 export function useAtomValue<Value>(atom: Atom<Value>, options?: Options) {
   const store = useStore(options);
