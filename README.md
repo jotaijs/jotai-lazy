@@ -4,6 +4,11 @@
 
 👻🥱
 
+```diff
+- import { useAtom } from "jotai";
++ import { useAtom } from "jotai-lazy";
+```
+
 ## Installation
 
 ```bash
@@ -56,7 +61,6 @@ After:
 ```tsx
 import { useAtom } from "jotai-lazy";
 
-// before
 export function useChat() {
   const messagesObject = useAtom(messagesAtom);
   const isPendingObject = useAtom(isPendingAtom);

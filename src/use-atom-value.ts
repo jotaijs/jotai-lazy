@@ -75,7 +75,8 @@ const createContinuablePromise = <T>(promise: PromiseLike<T>) => {
       const registerCancelHandler = (p: PromiseLike<T>) => {
         if ("onCancel" in p && typeof p.onCancel === "function") {
           p.onCancel((nextValue: PromiseLike<T> | T) => {
-            if (nextValue === p) {
+            // @ts-expect-error promise is untyped
+            if (process.env.NODE_ENV === "development" && nextValue === p) {
               throw new Error("[Bug] p is not updated even after cancelation");
             }
             if (isPromiseLike(nextValue)) {
